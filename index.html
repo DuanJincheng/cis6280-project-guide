@@ -4,401 +4,658 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CIS 6280 Final Project 速览</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
   <style>
+    /* 版面：单栏阅读页（约 780px）。正文不套卡片，用“标签 + 内容”两列对齐；
+       只有两个并列的方向和两处提醒用底色块区分。 */
     :root {
-      --bg: #fafafa;
+      --bg: #f6f7fb;
       --surface: #ffffff;
-      --text: #111827;
-      --muted: #4b5563;
-      --subtle: #6b7280;
-      --border: #e5e7eb;
-      --accent: #011f5b; /* Penn Blue */
-      --accent-soft: #eef2ff;
-      --warn-bg: #fffbeb;
-      --warn-border: #fde68a;
-      --warn-text: #92400e;
-      --radius: 10px;
+      --ink: #131a2c;
+      --muted: #48526a;
+      --line: #d9deea;
+      --accent: #011f5b;        /* Penn Blue */
+      --accent-tint: #e8edf8;
+      --alert: #990000;         /* Penn Red */
+      --alert-tint: #fbeeee;
+      --code-bg: #e9ecf4;
+
+      --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      --font-display: "Space Grotesk", "Inter", "PingFang SC", "Hiragino Sans GB",
+        "Microsoft YaHei", sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+      --fs-body: 1.0625rem;     /* 17px */
+      --fs-small: 0.9375rem;    /* 15px */
+      --fs-label: 0.875rem;     /* 14px */
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #0e1320;
+        --surface: #171d2e;
+        --ink: #e8ebf4;
+        --muted: #a9b2c8;
+        --line: #2b3348;
+        --accent: #a9c1ff;
+        --accent-tint: #1c2743;
+        --alert: #ff9d94;
+        --alert-tint: #2e1a1c;
+        --code-bg: #232b40;
+        color-scheme: dark;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #0e1320;
+      --surface: #171d2e;
+      --ink: #e8ebf4;
+      --muted: #a9b2c8;
+      --line: #2b3348;
+      --accent: #a9c1ff;
+      --accent-tint: #1c2743;
+      --alert: #ff9d94;
+      --alert-tint: #2e1a1c;
+      --code-bg: #232b40;
+      color-scheme: dark;
     }
 
     * { box-sizing: border-box; }
 
     html {
       scroll-behavior: smooth;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
-        "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-      color: var(--text);
-      background: var(--bg);
-      line-height: 1.65;
-      -webkit-font-smoothing: antialiased;
+      -webkit-text-size-adjust: 100%;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
     }
 
     body {
       margin: 0;
-      padding: 0 20px 72px;
+      padding-block: 0 96px;
+      padding-left: max(20px, env(safe-area-inset-left, 0px));
+      padding-right: max(20px, env(safe-area-inset-right, 0px));
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: var(--fs-body);
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
     }
 
-    .container {
-      max-width: 820px;
+    .page {
+      max-width: 780px;
       margin: 0 auto;
     }
 
-    /* Header */
-    header {
-      padding: 44px 0 24px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .eyebrow {
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin: 0 0 8px;
-    }
-
-    h1 {
-      font-size: 28px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin: 0 0 8px;
-    }
-
-    .subtitle {
-      font-size: 15px;
-      color: var(--muted);
-      margin: 0 0 18px;
-    }
-
-    nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    nav a {
-      font-size: 13px;
-      color: var(--muted);
-      text-decoration: none;
-      padding: 4px 10px;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      background: var(--surface);
-      transition: border-color 0.15s, color 0.15s;
-    }
-
-    nav a:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    /* Sections */
-    section {
-      margin-top: 36px;
-    }
-
-    h2 {
-      font-size: 18px;
-      font-weight: 650;
-      margin: 0 0 14px;
-      letter-spacing: -0.01em;
-    }
-
-    h3 {
-      font-size: 15px;
-      font-weight: 650;
-      margin: 0 0 8px;
-    }
-
-    p {
-      margin: 0 0 10px;
-      font-size: 14.5px;
-      color: var(--muted);
-    }
-
-    ul {
+    /* ---------- 基础排版 ---------- */
+    h1, h2, h3 {
+      font-family: var(--font-display);
+      color: var(--ink);
       margin: 0;
-      padding-left: 18px;
-      font-size: 14px;
-      color: var(--muted);
+      text-wrap: balance;
     }
+    h1 { font-size: clamp(2.125rem, 6vw, 2.875rem); font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; }
+    h2 { font-size: 1.625rem; font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; }
+    h3 { font-size: 1.3125rem; font-weight: 600; line-height: 1.3; }
 
-    li { margin-bottom: 6px; }
-    li:last-child { margin-bottom: 0; }
-
-    strong { color: var(--text); font-weight: 600; }
-
-    code {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 12.5px;
-      background: #f3f4f6;
-      padding: 1.5px 5px;
-      border-radius: 4px;
-      color: var(--text);
-    }
+    p { margin: 0; }
+    strong { font-weight: 600; color: var(--ink); }
 
     a {
       color: var(--accent);
-      text-decoration: none;
-    }
-
-    a:hover {
       text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+    a:hover { text-decoration-thickness: 2px; }
+    a:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: 3px;
     }
 
-    /* Cards & Grids */
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 18px 20px;
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.88em;
+      background: var(--code-bg);
+      color: var(--ink);
+      padding: 0.1em 0.38em;
+      border-radius: 4px;
+      overflow-wrap: anywhere;
     }
 
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-
-    .tag {
-      display: inline-block;
-      font-size: 11.5px;
-      font-weight: 600;
-      padding: 2px 8px;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      color: var(--accent);
-      margin-bottom: 8px;
-    }
-
-    .note {
-      margin-top: 12px;
-      padding: 12px 14px;
-      border-radius: 8px;
-      background: var(--warn-bg);
-      border: 1px solid var(--warn-border);
-      color: var(--warn-text);
-      font-size: 13.5px;
-    }
-
-    .note strong { color: var(--warn-text); }
-
-    /* Resource list */
-    .links-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .link-item {
+    /* ---------- 页头 ---------- */
+    header {
+      padding-block: 64px 36px;
       display: flex;
       flex-direction: column;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px 14px;
-      text-decoration: none;
-      transition: border-color 0.15s, transform 0.15s;
+      gap: 16px;
     }
 
-    .link-item:hover {
-      border-color: var(--accent);
-      text-decoration: none;
-      transform: translateY(-1px);
-    }
-
-    .link-title {
-      font-size: 14px;
+    .eyebrow {
+      font-size: var(--fs-label);
       font-weight: 600;
-      color: var(--text);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
     }
 
+    .lede {
+      font-size: 1.1875rem;
+      line-height: 1.65;
+      color: var(--muted);
+      max-width: 34em;
+    }
+
+    nav ol {
+      list-style: none;
+      margin: 12px 0 0;
+      padding: 16px 0 0;
+      border-top: 1px solid var(--line);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 28px;
+      font-size: 1rem;
+    }
+    nav a {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 7px;
+      color: var(--ink);
+      font-weight: 500;
+      text-decoration: none;
+      padding-block: 4px;
+    }
+    nav a:hover { color: var(--accent); text-decoration: underline; }
+    nav .num {
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      color: var(--accent);
+    }
+
+    /* ---------- 小节 ---------- */
+    section {
+      margin-top: 72px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      scroll-margin-top: 24px;
+    }
+
+    .sec-head {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      padding-bottom: 14px;
+      border-bottom: 2px solid var(--ink);
+    }
+    .sec-head .num {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--accent);
+    }
+    .sec-head .aside {
+      font-family: var(--font-body);
+      font-size: var(--fs-small);
+      font-weight: 400;
+      color: var(--muted);
+      letter-spacing: 0;
+    }
+
+    .body-text { color: var(--muted); }
+
+    /* ---------- “标签 + 内容”行 ---------- */
+    .rows {
+      margin: 0;
+      display: grid;
+      grid-template-columns: 6.5em minmax(0, 1fr);
+      column-gap: 24px;
+    }
+    .rows dt, .rows dd {
+      margin: 0;
+      padding-block: 16px;
+      border-top: 1px solid var(--line);
+    }
+    .rows dt:first-of-type, .rows dt:first-of-type + dd { border-top: none; padding-top: 0; }
+    .rows dt {
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .rows dd { color: var(--muted); }
+
+    /* ---------- 任务规格条 ---------- */
+    .specs {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+    }
+    .specs li {
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      border-left: 1px solid var(--line);
+    }
+    .specs li:first-child { border-left: none; }
+    .spec-value {
+      font-family: var(--font-display);
+      font-size: 1.625rem;
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+    }
+    .spec-label {
+      font-size: var(--fs-small);
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
+    /* ---------- 两个方向 ---------- */
+    .track {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .track-head {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .track-kicker {
+      align-self: flex-start;
+      font-size: var(--fs-label);
+      font-weight: 600;
+      color: var(--accent);
+      background: var(--accent-tint);
+      padding: 3px 12px;
+      border-radius: 999px;
+    }
+    .track-head p { color: var(--muted); }
+
+    .pipeline {
+      list-style: none;
+      counter-reset: stage;
+      margin: 6px 0 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .pipeline li {
+      counter-increment: stage;
+      border-top: 2px solid var(--accent);
+      padding-top: 8px;
+      font-size: var(--fs-small);
+      line-height: 1.5;
+      color: var(--ink);
+    }
+    .pipeline li::before {
+      content: counter(stage);
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      color: var(--accent);
+    }
+
+    /* ---------- 提醒 ---------- */
+    .callout {
+      background: var(--alert-tint);
+      border-radius: 10px;
+      padding: 22px 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      color: var(--ink);
+    }
+    .callout-label {
+      font-size: var(--fs-label);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--alert);
+    }
+    .callout ol {
+      margin: 0;
+      padding-left: 1.4em;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .callout ol li::marker { color: var(--alert); font-weight: 600; }
+
+    /* ---------- 资源 ---------- */
+    .links {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 40px;
+    }
+    .links li { border-bottom: 1px solid var(--line); }
+    .links a {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      height: 100%;
+      padding-block: 16px;
+      text-decoration: none;
+    }
+    .link-title {
+      font-weight: 600;
+      color: var(--accent);
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .link-title::after {
+      content: "↗";
+      font-family: var(--font-mono);
+      transition: transform 0.15s;
+    }
+    .links a:hover .link-title { text-decoration: underline; text-underline-offset: 3px; }
+    .links a:hover .link-title::after { transform: translate(2px, -2px); }
+    @media (prefers-reduced-motion: reduce) {
+      .link-title::after { transition: none; }
+    }
     .link-desc {
-      font-size: 12.5px;
-      color: var(--subtle);
-      margin-top: 2px;
+      font-size: var(--fs-small);
+      line-height: 1.6;
+      color: var(--muted);
     }
 
-    /* Table */
+    /* ---------- 表格 ---------- */
     .table-wrap {
       overflow-x: auto;
       background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      border-radius: 10px;
     }
-
     table {
       width: 100%;
+      min-width: 640px;
       border-collapse: collapse;
-      font-size: 13.5px;
+      font-size: 1rem;
+      font-variant-numeric: tabular-nums;
     }
-
     th, td {
-      padding: 11px 12px;
-      text-align: center;
-      border-bottom: 1px solid var(--border);
+      padding: 16px 14px;
+      text-align: right;
+      border-bottom: 1px solid var(--line);
+      white-space: nowrap;
     }
-
     th {
+      font-size: var(--fs-label);
       font-weight: 600;
-      color: var(--subtle);
-      background: #f9fafb;
-      font-size: 12.5px;
+      color: var(--muted);
     }
-
     th:first-child, td:first-child {
       text-align: left;
-      padding-left: 16px;
+      padding-left: 22px;
+      white-space: normal;
     }
-
-    tr:last-child td { border-bottom: none; }
-
-    /* Timeline */
-    .timeline {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-
-    .t-item {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 14px 16px;
-    }
-
-    .t-date {
-      font-size: 12px;
-      font-weight: 700;
+    th:last-child, td:last-child { padding-right: 22px; }
+    tbody tr:last-child td { border-bottom: none; }
+    .method { font-weight: 600; color: var(--ink); display: block; }
+    .method-sub { font-size: var(--fs-label); color: var(--muted); display: block; margin-top: 2px; }
+    td.key {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 600;
       color: var(--accent);
-      margin-bottom: 4px;
+    }
+    .footnote {
+      font-size: var(--fs-small);
+      line-height: 1.7;
+      color: var(--muted);
     }
 
-    .t-title {
-      font-size: 14px;
-      font-weight: 650;
-      color: var(--text);
-      margin-bottom: 4px;
-    }
-
-    .t-desc {
-      font-size: 13px;
-      color: var(--subtle);
+    /* ---------- 时间线 ---------- */
+    .timeline {
       margin: 0;
+      display: grid;
+      grid-template-columns: 6.5em minmax(0, 1fr);
+      column-gap: 24px;
+    }
+    .timeline dt, .timeline dd {
+      margin: 0;
+      padding-block: 18px;
+      border-top: 1px solid var(--line);
+    }
+    .timeline dt:first-of-type, .timeline dt:first-of-type + dd { border-top: none; padding-top: 0; }
+    .timeline dt {
+      font-family: var(--font-display);
+      font-size: 1.3125rem;
+      font-weight: 600;
+      line-height: 1.4;
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+    }
+    .timeline dd { color: var(--muted); }
+    .t-title {
+      display: block;
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .timeline .past { color: var(--muted); }
+    .timeline .past .t-title { color: var(--muted); }
+    .status {
+      display: inline-block;
+      margin-left: 8px;
+      font-family: var(--font-body);
+      font-size: var(--fs-label);
+      font-weight: 500;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0 10px;
+      vertical-align: 2px;
     }
 
     footer {
-      margin-top: 48px;
-      padding-top: 18px;
-      border-top: 1px solid var(--border);
-      font-size: 12.5px;
-      color: var(--subtle);
+      margin-top: 80px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      font-size: var(--fs-small);
+      color: var(--muted);
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 8px 24px;
     }
 
+    /* ---------- 窄屏 ---------- */
     @media (max-width: 680px) {
-      .grid-2, .links-grid, .timeline {
-        grid-template-columns: 1fr;
-      }
-      header { padding-top: 28px; }
-      h1 { font-size: 24px; }
+      header { padding-block: 40px 28px; }
+      section { margin-top: 56px; }
+      h2 { font-size: 1.4375rem; }
+      .sec-head { flex-wrap: wrap; gap: 4px 12px; }
+
+      .rows, .timeline { grid-template-columns: minmax(0, 1fr); }
+      .rows dt, .timeline dt { padding-bottom: 0; }
+      .rows dd, .timeline dd { border-top: none; padding-top: 4px; }
+
+      .specs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .specs li:nth-child(odd) { border-left: none; }
+      .specs li:nth-child(n + 3) { border-top: 1px solid var(--line); }
+
+      .track { padding: 22px 20px; }
+      .pipeline { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .links { grid-template-columns: minmax(0, 1fr); }
+      .callout { padding: 20px; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="page">
     <header>
       <p class="eyebrow">UPenn CIS 6280 · World Models · Fall 2026</p>
       <h1>Final Project 速览</h1>
-      <p class="subtitle">基于 Latent World Model 的五指灵巧手四方块堆叠任务 — 要求、已发布资源与时间线</p>
-      <nav>
-        <a href="#overview">任务与组队</a>
-        <a href="#tracks">两个方向</a>
-        <a href="#resources">已放出资源</a>
-        <a href="#benchmark">Baseline 指标</a>
-        <a href="#timeline">时间线</a>
+      <p class="lede">基于 Latent World Model 的五指灵巧手四方块堆叠任务：要求、已发布资源与时间线。</p>
+      <nav aria-label="页内目录">
+        <ol>
+          <li><a href="#overview"><span class="num">1</span>任务与组队</a></li>
+          <li><a href="#tracks"><span class="num">2</span>两个方向</a></li>
+          <li><a href="#resources"><span class="num">3</span>已放出资源</a></li>
+          <li><a href="#benchmark"><span class="num">4</span>Baseline 指标</a></li>
+          <li><a href="#timeline"><span class="num">5</span>时间线</a></li>
+        </ol>
       </nav>
     </header>
 
     <section id="overview">
-      <h2>1. 任务与组队要求</h2>
-      <div class="card">
-        <ul>
-          <li><strong>任务</strong>：在 MuJoCo 中控制 <strong>22-DoF Sharpa Wave 五指灵巧手</strong>（装在 3-DoF 腕部平台，共 <code>25-DoF</code> 动作空间），<strong>仅依赖两个腕部相机 RGB 视角</strong>，在时间预算内抓取并将 4 个方块（两个 55 mm、两个 85 mm 高）在目标区域叠得尽可能高。</li>
-          <li><strong>核心难点</strong>：得分看最终稳定高度。继续往上放可能更高，也可能碰倒现有堆叠；<strong>何时停止（risk-aware stopping）</strong>本身也是挑战。</li>
-          <li><strong>组队</strong>：<strong>2–4 人一组</strong>，需在 <a href="https://docs.google.com/spreadsheets/d/1TUqTiwTcLgfXKVHjIMOA3O9rsw5DHFFKZBHU3liDKNk/edit?usp=sharing" target="_blank" rel="noopener">Group Signup Sheet ↗</a> 登记。</li>
-          <li><strong>评分导向</strong>：不只是比谁叠得最高，更看重<strong>明确的研究问题、清晰的 baseline 对比、以及成功/失败案例分析</strong>。</li>
-        </ul>
+      <div class="sec-head">
+        <span class="num">1</span>
+        <h2>任务与组队要求</h2>
       </div>
+
+      <ul class="specs" aria-label="任务规格">
+        <li><span class="spec-value">25-DoF</span><span class="spec-label">动作空间（22 手 + 3 腕）</span></li>
+        <li><span class="spec-value">2 路 RGB</span><span class="spec-label">仅腕部相机视角</span></li>
+        <li><span class="spec-value">4 个方块</span><span class="spec-label">55 mm × 2，85 mm × 2</span></li>
+        <li><span class="spec-value">2–4 人</span><span class="spec-label">每组人数</span></li>
+      </ul>
+
+      <dl class="rows">
+        <dt>任务</dt>
+        <dd>在 MuJoCo 中控制 <strong>22-DoF Sharpa Wave 五指灵巧手</strong>（装在 3-DoF 腕部平台，共 <code>25-DoF</code> 动作空间），<strong>仅依赖两个腕部相机 RGB 视角</strong>，在时间预算内抓取并将 4 个方块（两个 55 mm、两个 85 mm 高）在目标区域叠得尽可能高。</dd>
+
+        <dt>核心难点</dt>
+        <dd>得分看最终稳定高度。继续往上放可能更高，也可能碰倒现有堆叠；<strong>何时停止（risk-aware stopping）</strong>本身也是挑战。</dd>
+
+        <dt>组队</dt>
+        <dd><strong>2–4 人一组</strong>，需在 <a href="https://docs.google.com/spreadsheets/d/1TUqTiwTcLgfXKVHjIMOA3O9rsw5DHFFKZBHU3liDKNk/edit?usp=sharing" target="_blank" rel="noopener">Group Signup Sheet ↗</a> 登记。</dd>
+
+        <dt>评分导向</dt>
+        <dd>不只是比谁叠得最高，更看重<strong>明确的研究问题、清晰的 baseline 对比、以及成功/失败案例分析</strong>。</dd>
+      </dl>
     </section>
 
     <section id="tracks">
-      <h2>2. 两个可选方向（不强制训练新模型）</h2>
-      <div class="grid-2">
-        <div class="card">
-          <span class="tag">Track 1 · 零训练可起步</span>
+      <div class="sec-head">
+        <span class="num">2</span>
+        <h2>两个可选方向 <span class="aside">不强制训练新模型</span></h2>
+      </div>
+
+      <article class="track">
+        <div class="track-head">
+          <span class="track-kicker">Track 1 · 零训练可起步</span>
           <h3>Planning Track</h3>
           <p>固定官方预训练 World Model 与 Policy，专注设计更好的 test-time planner。</p>
-          <ul>
-            <li><strong>接口</strong>：改写 <code>GoalPlanningAgent</code> 的 <code>reset()</code> 与 <code>step(frame)</code>（每 5 步输出 <code>(5, 25)</code> 动作）。</li>
-            <li><strong>Baseline</strong>：每 0.5 s 编码当前帧为 192-D latent；当距离小于上一段间隔的 <code>τ = 0.25</code> 时切 subgoal；Policy 采样 16 条 8 s 候选动作，WM 展开后选终态离 subgoal 最近的，执行第 1 个 block 后重规划。</li>
-            <li><strong>思路</strong>：整条轨迹打分、多 subgoal 前瞻、CEM/MPPI 迭代优化、动态调整采样/执行步数、滑落检测与恢复、风险感知停止。</li>
-          </ul>
         </div>
+        <dl class="rows">
+          <dt>接口</dt>
+          <dd>改写 <code>GoalPlanningAgent</code> 的 <code>reset()</code> 与 <code>step(frame)</code>（每 5 步输出 <code>(5, 25)</code> 动作）。</dd>
 
-        <div class="card">
-          <span class="tag">Track 2 · 可从任意阶段切入</span>
+          <dt>Baseline</dt>
+          <dd>每 0.5 s 编码当前帧为 192-D latent；当距离小于上一段间隔的 <code>τ = 0.25</code> 时切 subgoal；Policy 采样 16 条 8 s 候选动作，WM 展开后选终态离 subgoal 最近的，执行第 1 个 block 后重规划。</dd>
+
+          <dt>思路</dt>
+          <dd>整条轨迹打分、多 subgoal 前瞻、CEM/MPPI 迭代优化、动态调整采样/执行步数、滑落检测与恢复、风险感知停止。</dd>
+        </dl>
+      </article>
+
+      <article class="track">
+        <div class="track-head">
+          <span class="track-kicker">Track 2 · 可从任意阶段切入</span>
           <h3>Training Track</h3>
           <p>改进 World Model 或 Policy，验证更好的预测是否带来更好的决策。</p>
-          <ul>
-            <li><strong>5 阶段流水线</strong>：① 20k-episode 数据采集 → ② JEPA Latent WM 预训练 → ③ Diffusion Forcing Policy 训练 → ④ On-policy predictor 微调 → ⑤ 并行闭环评测。</li>
-            <li><strong>跳过前置阶段</strong>：Hugging Face 已提供每一阶段的 checkpoint，可直接从任意阶段开始实验。</li>
-            <li><strong>思路</strong>：引入本体感知（proprioception）微调、用 linear probing 分析现有 latent 对本体感知的编码程度、改进 WM 架构或 loss。</li>
-          </ul>
         </div>
-      </div>
+        <dl class="rows">
+          <dt>5 阶段流水线</dt>
+          <dd>
+            <ol class="pipeline">
+              <li>20k-episode 数据采集</li>
+              <li>JEPA Latent WM 预训练</li>
+              <li>Diffusion Forcing Policy 训练</li>
+              <li>On-policy predictor 微调</li>
+              <li>并行闭环评测</li>
+            </ol>
+          </dd>
 
-      <div class="note">
-        <strong>TA 关键补充（Ed #33）</strong>：① 官方<strong>不会</strong>再发布更强的 baseline WM；② 现有 RGB-only WM 的 latent 已隐含编码了一部分 proprioceptive state；③ 在最终评测细则公布前，Planning Track 请保持 <code>goals.npz</code>（每 80 步 / 8 秒一张 subgoal 图）不变。
-      </div>
+          <dt>跳过前置阶段</dt>
+          <dd>Hugging Face 已提供每一阶段的 checkpoint，可直接从任意阶段开始实验。</dd>
+
+          <dt>思路</dt>
+          <dd>引入本体感知（proprioception）微调、用 linear probing 分析现有 latent 对本体感知的编码程度、改进 WM 架构或 loss。</dd>
+        </dl>
+      </article>
+
+      <aside class="callout">
+        <span class="callout-label">TA 关键补充（Ed #33）</span>
+        <ol>
+          <li>官方<strong>不会</strong>再发布更强的 baseline WM。</li>
+          <li>现有 RGB-only WM 的 latent 已隐含编码了一部分 proprioceptive state。</li>
+          <li>在最终评测细则公布前，Planning Track 请保持 <code>goals.npz</code>（每 80 步 / 8 秒一张 subgoal 图）不变。</li>
+        </ol>
+      </aside>
     </section>
 
     <section id="resources">
-      <h2>3. 已放出的资源</h2>
-      <div class="links-grid">
-        <a class="link-item" href="https://github.com/GMLR-Penn/cis6280-final-project" target="_blank" rel="noopener">
-          <span class="link-title">官方 GitHub 仓库 ↗</span>
-          <span class="link-desc">MuJoCo 仿真器、Baseline 代码、本地安装脚本与文档</span>
-        </a>
-        <a class="link-item" href="https://colab.research.google.com/github/GMLR-Penn/cis6280-final-project/blob/main/assignment/planning/colab.ipynb" target="_blank" rel="noopener">
-          <span class="link-title">Planning Colab Notebook ↗</span>
-          <span class="link-desc">免本地配置，GPU 约 15 分钟跑完单场景对比与视频可视化</span>
-        </a>
-        <a class="link-item" href="https://huggingface.co/YongYong/cis6280-stack-world-models-v2" target="_blank" rel="noopener">
-          <span class="link-title">Hugging Face 预训练模型 ↗</span>
-          <span class="link-desc">WM (pretrain.pt / model.pt) 与 Diffusion Forcing Policy</span>
-        </a>
-        <a class="link-item" href="https://huggingface.co/datasets/YongYong/cis6280-stack-datasets-v2" target="_blank" rel="noopener">
-          <span class="link-title">Hugging Face 数据集与 Subgoals ↗</span>
-          <span class="link-desc">20k 轨迹数据及 val100 / val300 的 goals.npz</span>
-        </a>
-        <a class="link-item" href="https://github.com/GMLR-Penn/cis6280-final-project/blob/main/assignment/README.md" target="_blank" rel="noopener">
-          <span class="link-title">Assignment README ↗</span>
-          <span class="link-desc">Planning / Training 两个方向详细说明入口</span>
-        </a>
-        <a class="link-item" href="https://edstem.org/us/courses/104588/discussion" target="_blank" rel="noopener">
-          <span class="link-title">Ed Discussion & 课程官网 ↗</span>
-          <span class="link-desc">最新公告（#30 组队、#33 资源、#42 Checkpoint 可选）</span>
-        </a>
+      <div class="sec-head">
+        <span class="num">3</span>
+        <h2>已放出的资源</h2>
       </div>
+      <ul class="links">
+        <li>
+          <a href="https://github.com/GMLR-Penn/cis6280-final-project" target="_blank" rel="noopener">
+            <span class="link-title">官方 GitHub 仓库</span>
+            <span class="link-desc">MuJoCo 仿真器、Baseline 代码、本地安装脚本与文档</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://colab.research.google.com/github/GMLR-Penn/cis6280-final-project/blob/main/assignment/planning/colab.ipynb" target="_blank" rel="noopener">
+            <span class="link-title">Planning Colab Notebook</span>
+            <span class="link-desc">免本地配置，GPU 约 15 分钟跑完单场景对比与视频可视化</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://huggingface.co/YongYong/cis6280-stack-world-models-v2" target="_blank" rel="noopener">
+            <span class="link-title">Hugging Face 预训练模型</span>
+            <span class="link-desc">WM (pretrain.pt / model.pt) 与 Diffusion Forcing Policy</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://huggingface.co/datasets/YongYong/cis6280-stack-datasets-v2" target="_blank" rel="noopener">
+            <span class="link-title">Hugging Face 数据集与 Subgoals</span>
+            <span class="link-desc">20k 轨迹数据及 val100 / val300 的 goals.npz</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/GMLR-Penn/cis6280-final-project/blob/main/assignment/README.md" target="_blank" rel="noopener">
+            <span class="link-title">Assignment README</span>
+            <span class="link-desc">Planning / Training 两个方向详细说明入口</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://edstem.org/us/courses/104588/discussion" target="_blank" rel="noopener">
+            <span class="link-title">Ed Discussion &amp; 课程官网</span>
+            <span class="link-desc">最新公告（#30 组队、#33 资源、#42 Checkpoint 可选）</span>
+          </a>
+        </li>
+      </ul>
     </section>
 
     <section id="benchmark">
-      <h2>4. 官方 Baseline Benchmark</h2>
-      <p>在 <strong>300 个验证场景 × 3 个 policy seeds（0, 2, 3）</strong>上取平均；<code>≥1 ~ 4</code> 为达到对应层数堆叠的 episode 比例（并排不计入堆叠）。</p>
+      <div class="sec-head">
+        <span class="num">4</span>
+        <h2>官方 Baseline Benchmark</h2>
+      </div>
+      <p class="body-text">在 <strong>300 个验证场景 × 3 个 policy seeds（0, 2, 3）</strong>上取平均；<code>≥1 ~ 4</code> 为达到对应层数堆叠的 episode 比例（并排不计入堆叠）。</p>
       <div class="table-wrap">
         <table>
           <thead>
@@ -414,54 +671,64 @@
           </thead>
           <tbody>
             <tr>
-              <td>No planning (<code>LatentPolicyAgent</code>, 1 sample)</td>
+              <td>
+                <span class="method">No planning</span>
+                <span class="method-sub"><code>LatentPolicyAgent</code>，1 sample</span>
+              </td>
               <td>81.4%</td>
               <td>35.7%</td>
               <td>8.6%</td>
               <td>1.1%</td>
               <td>99.4%</td>
-              <td><strong>1.27</strong></td>
+              <td class="key">1.27</td>
             </tr>
             <tr>
-              <td>Baseline Planning (<code>GoalPlanningAgent</code>, 16 samples, τ=0.25)</td>
+              <td>
+                <span class="method">Baseline Planning</span>
+                <span class="method-sub"><code>GoalPlanningAgent</code>，16 samples，τ=0.25</span>
+              </td>
               <td>85.2%</td>
               <td>41.4%</td>
               <td>11.8%</td>
               <td>2.4%</td>
               <td>99.1%</td>
-              <td><strong>1.41</strong></td>
+              <td class="key">1.41</td>
             </tr>
           </tbody>
         </table>
       </div>
-      <p style="margin-top: 8px; font-size: 13px; color: var(--subtle);">
-        注：不同 seed 波动明显（No planning 在 1.21–1.31 之间），对比方法时需固定相同场景与 seeds 并报均值。300 验证场景作为 dev set 使用。
-      </p>
+      <p class="footnote">注：不同 seed 波动明显（No planning 在 1.21–1.31 之间），对比方法时需固定相同场景与 seeds 并报均值。300 验证场景作为 dev set 使用。</p>
     </section>
 
     <section id="timeline">
-      <h2>5. 时间线与待公布项</h2>
-      <div class="timeline">
-        <div class="t-item">
-          <div class="t-date">Nov 16（已过）</div>
-          <div class="t-title">Checkpoint（Optional）</div>
-          <p class="t-desc">已改为可选，无需提交；如需反馈可在 Ed 发 Private 帖。</p>
-        </div>
-        <div class="t-item">
-          <div class="t-date">Dec 01</div>
-          <div class="t-title">Final Presentations</div>
-          <p class="t-desc">课堂展示项目结果、失败分析与讨论。</p>
-        </div>
-        <div class="t-item">
-          <div class="t-date">Dec 14</div>
-          <div class="t-title">Final Report + Code</div>
-          <p class="t-desc">最终报告与代码提交截止（具体格式待公布）。</p>
-        </div>
+      <div class="sec-head">
+        <span class="num">5</span>
+        <h2>时间线与待公布项</h2>
       </div>
+      <dl class="timeline">
+        <dt class="past">Nov 16</dt>
+        <dd class="past">
+          <span class="t-title">Checkpoint（Optional）<span class="status">已过</span></span>
+          已改为可选，无需提交；如需反馈可在 Ed 发 Private 帖。
+        </dd>
 
-      <div class="note">
-        <strong>尚未公布</strong>：最终竞赛规则、held-out 测试场景、提交格式、算力限制以及完整评分 rubric（官方将在 Ed / Canvas 另行通知）。
-      </div>
+        <dt>Dec 01</dt>
+        <dd>
+          <span class="t-title">Final Presentations</span>
+          课堂展示项目结果、失败分析与讨论。
+        </dd>
+
+        <dt>Dec 14</dt>
+        <dd>
+          <span class="t-title">Final Report + Code</span>
+          最终报告与代码提交截止（具体格式待公布）。
+        </dd>
+      </dl>
+
+      <aside class="callout">
+        <span class="callout-label">尚未公布</span>
+        <p>最终竞赛规则、held-out 测试场景、提交格式、算力限制以及完整评分 rubric（官方将在 Ed / Canvas 另行通知）。</p>
+      </aside>
     </section>
 
     <footer>
